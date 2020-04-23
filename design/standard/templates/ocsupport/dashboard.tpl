@@ -4,6 +4,26 @@
     </div>
 {/if}
 
+{if count($installers)|gt(0)}
+    <h1>Installer</h1>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" class="table table-striped list">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Version</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $installers as $installer sequence array(bglight,bgdark) as $style}
+        <tr class="{$style}">
+            <td>{$installer.name|wash()}</td>
+            <td>{$installer.value|wash()}</td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+{/if}
+
 {if $packages}
 
     <h1>Composer packages</h1>

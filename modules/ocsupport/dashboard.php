@@ -22,10 +22,13 @@ try {
     $error = $e->getMessage();
 }
 
+$installers = eZDB::instance()->arrayQuery("SELECT * FROM ezsite_data WHERE name like 'ocinstaller_%'");
+
 $tpl->setVariable('error', $error);
 $tpl->setVariable('site_title', $title);
 $tpl->setVariable('packages', $packages);
 $tpl->setVariable('repos', $gitRepos);
+$tpl->setVariable('installers', $installers);
 
 $Result = array();
 $Result['content'] = $tpl->fetch('design:ocsupport/dashboard.tpl');
