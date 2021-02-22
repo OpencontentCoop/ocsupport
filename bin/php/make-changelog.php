@@ -44,7 +44,7 @@ function getLogs($tag, $previousTag)
         }
     }
 
-    return $logs;
+    return array_unique($logs);
 }
 
 function generateTagText($tag, $previousTag, $newTagName = false)
@@ -68,6 +68,7 @@ function generateTagText($tag, $previousTag, $newTagName = false)
     $logText = implode("\n", $logText);
     if (!empty($installerText)) {
         array_unshift($installerText, "\n", '#### Installer');
+        $installerText[] = '';
     }
     $installerText = implode("\n", $installerText);
 
