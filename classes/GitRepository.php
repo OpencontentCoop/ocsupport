@@ -29,11 +29,15 @@ class GitRepository extends \Cz\Git\GitRepository
 
     public function getTagsSortedByDate($excludes = [])
     {
-        $tagDateList = $this->extractFromCommand("git tag -l --format='%(tag)#%(taggerdate)'", 'trim');
+        $tagDateList = $this->extractFromCommand("git tag -l --format='%(refname:strip=2)#%(taggerdate)#%(committerdate)'", 'trim');
 
         usort($tagDateList, function ($a, $b){
-            $dateA = strtotime(explode('#', $a)[1]);
-            $dateB = strtotime(explode('#', $b)[1]);
+            $aParts = explode('#', $a);
+            $bParts = explode('#', $b);
+            $aDateString = empty($a[1]) ? $a[2] : $a[1];
+            $bDateString = empty($b[1]) ? $b[2] : $b[1];
+            $dateA = strtotime($aDateString);
+            $dateB = strtotime($bDateString);
             return ($dateA < $dateB) ? -1 : 1;
         });
 
