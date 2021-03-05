@@ -34,8 +34,8 @@ class GitRepository extends \Cz\Git\GitRepository
         usort($tagDateList, function ($a, $b){
             $aParts = explode('#', $a);
             $bParts = explode('#', $b);
-            $aDateString = empty($a[1]) ? $a[2] : $a[1];
-            $bDateString = empty($b[1]) ? $b[2] : $b[1];
+            $aDateString = empty($aParts[1]) ? $aParts[2] : $aParts[1];
+            $bDateString = empty($bParts[1]) ? $bParts[2] : $bParts[1];
             $dateA = strtotime($aDateString);
             $dateB = strtotime($bDateString);
             return ($dateA < $dateB) ? -1 : 1;
