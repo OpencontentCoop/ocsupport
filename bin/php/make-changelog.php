@@ -11,12 +11,14 @@ $script = eZScript::instance([
 
 $script->startup();
 $options = $script->getOptions(
-    "[remote:]",
+    "[remote:][from:][to:]",
     "[path][repo]",
     array(
         'remote' => 'Remote repo uri',
         'path' => 'CHANGELOG.md path (default ../CHANGELOG.md)',
         'repo' => 'repo path (default ../)',
+        'from' => 'From tag',
+        'To' => 'To tag'
     )
 );
 $script->initialize();
@@ -134,6 +136,12 @@ $gitRepo = new GitRepository($repo);
 
 $composerDiffer = new ComposerLockDiff($repo);
 
+if ($options['from'] && $options['to']){
+    echo generateTagText($options['to'], $options['from']);
+    $script->shutdown();
+    exit(0);
+}
+
 $changeLogContents = file_get_contents($file);
 
 $intro = <<<INTRO
@@ -227,6 +235,5 @@ if ($newTagName) {
         }
     }
 }
-
 
 $script->shutdown();

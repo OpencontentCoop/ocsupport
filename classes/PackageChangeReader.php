@@ -24,12 +24,14 @@ class PackageChangeReader
     {
         $messages = [];
         $token = getenv('GITHUB_TOKEN');
-        $tokenQueryString = '';
-        if ($token){
-            $tokenQueryString = "?access_token=" . $token;
-        }
-        $apiCompareUrl = str_replace('https://github.com', 'https://api.github.com/repos', $this->compareUrl) . $tokenQueryString;
-        $context = stream_context_create(['http' => ['method' => 'GET','header' => ['User-Agent: PHP']]]);
+        $apiCompareUrl = str_replace('https://github.com', 'https://api.github.com/repos', $this->compareUrl);
+        $context = stream_context_create([
+            'ssl' => ['verify_peer' => false, 'verify_peer_name' => false],
+            'http' => [
+                'method' => 'GET',
+                'header' => "User-Agent: PHP\r\nAuthorization: $token"
+            ]
+        ]);
         $compareResponse = @file_get_contents($apiCompareUrl, false, $context);
         if ($compareResponse){
             $compareData = json_decode($compareResponse, true);
