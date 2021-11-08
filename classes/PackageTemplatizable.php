@@ -1,6 +1,6 @@
 <?php
 
-class PackageTemplatizable
+class PackageTemplatizable implements JsonSerializable
 {
     private $package;
 
@@ -46,4 +46,16 @@ class PackageTemplatizable
 
         return false;
     }
+
+    public function jsonSerialize()
+    {
+        $data = [];
+        foreach ($this->attributes() as $attribute){
+            $data[$attribute] = $this->attribute($attribute);
+        }
+
+        return $data;
+    }
+
+
 }
