@@ -55,7 +55,8 @@ class OCSupportRunCronJobSourceHandler extends SQLIImportAbstractHandler impleme
         if ($cronPart == 'sqliimport_run.php' || $cronPart == 'clean_sqlitoken.php'){
             return false;
         }
-
+        
+        eZINI::instance()->setVariable('ContentSettings', 'ViewCaching', 'enabled');
         foreach ($this->scriptDirectories as $scriptDirectory) {
             $scriptFile = $scriptDirectory . '/' . $cronPart;
             if (file_exists($scriptFile))
@@ -73,7 +74,8 @@ class OCSupportRunCronJobSourceHandler extends SQLIImportAbstractHandler impleme
 
             $this->progressionNotes .= $cronPart . '<br />';
         }
-
+        eZINI::instance()->setVariable('ContentSettings', 'ViewCaching', 'disabled');
+        
         return true;
     }
 
