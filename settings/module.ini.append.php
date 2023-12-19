@@ -3,4 +3,6 @@
 [ModuleSettings]
 ExtensionRepositories[]=ocsupport
 ModuleList[]=ocsupport
+ModuleList[]=metrics
+
 */ ?>
