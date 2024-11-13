@@ -5,4 +5,5 @@ PolicyOmitList[]=metrics
 
 [Event]
 Listeners[]=metrics/output@MetricCollector::getWebhookLatencyAndErrors
+Listeners[]=content/cache/all@OCSupportListeners::logOnClearAllCache
 */ ?>
