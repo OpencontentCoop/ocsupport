@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 require 'autoload.php';
 
 $script = eZScript::instance([
@@ -241,6 +243,8 @@ try {
     }
     $script->shutdown();
 } catch (Exception $e) {
-    $errCode = 1; // If an error has occured, script must terminate with a status other than 0
-    $script->shutdown($errCode, $e->getMessage());
+    if ($options['quiet']) {
+        echo $e->getMessage() . PHP_EOL;
+    }
+    $script->shutdown(1, $e->getMessage());
 }
