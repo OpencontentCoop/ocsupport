@@ -6,7 +6,7 @@ class InstallerTools
 {
     public static function getInstallerPath(): ?string
     {
-        $mainInstallerPath = OpenPAINI::variable('InstallerSettings', 'InstallerPath', false);
+        $mainInstallerPath = OpenPAINI::variable('InstallerSettings', 'MainInstallerPath', false);
         if (!$mainInstallerPath) {
             $mainInstallerVersion = eZSiteData::fetchByName('ocinstaller_version');
             if ($mainInstallerVersion instanceof eZSiteData) {
