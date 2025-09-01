@@ -6,13 +6,15 @@ class InstallerTools
 {
     public static function getInstallerPath(): ?string
     {
-        $mainInstallerPath = false;
-        $mainInstallerVersion = eZSiteData::fetchByName('ocinstaller_version');
-        if ($mainInstallerVersion instanceof eZSiteData) {
-            $mainInstallerVersion = $mainInstallerVersion->attribute('value');
-            $mainInstallerPath = eZSiteData::fetchByName('path_ocinstaller_version@' . $mainInstallerVersion);
-            if ($mainInstallerPath instanceof eZSiteData) {
-                $mainInstallerPath = self::reparentDirectoryIfNeeded($mainInstallerPath->attribute('value'));
+        $mainInstallerPath = OpenPAINI::variable('InstallerSettings', 'InstallerPath', false);
+        if (!$mainInstallerPath) {
+            $mainInstallerVersion = eZSiteData::fetchByName('ocinstaller_version');
+            if ($mainInstallerVersion instanceof eZSiteData) {
+                $mainInstallerVersion = $mainInstallerVersion->attribute('value');
+                $mainInstallerPath = eZSiteData::fetchByName('path_ocinstaller_version@' . $mainInstallerVersion);
+                if ($mainInstallerPath instanceof eZSiteData) {
+                    $mainInstallerPath = self::reparentDirectoryIfNeeded($mainInstallerPath->attribute('value'));
+                }
             }
         }
         return $mainInstallerPath;
