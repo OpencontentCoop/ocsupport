@@ -17,8 +17,15 @@ $ViewList['run_installer'] = array(
     'unordered_params' => array(),
     "default_navigation_part" => 'ezsetupnavigationpart',
 );
-
+$ViewList['poeditor'] = array(
+    'functions' => array( 'poeditor' ),
+    'script' => 'poeditor.php',
+    'params' => array('ProjectID'),
+    'unordered_params' => array(),
+    "default_navigation_part" => 'ezsetupnavigationpart',
+);
 
 $FunctionList = array();
 $FunctionList['dashboard'] = array();
 $FunctionList['run_installer'] = array();
+$FunctionList['poeditor'] = array();
