@@ -79,7 +79,7 @@ try {
         'agenda',
     ];
     $siteAccessSelectedList = [
-        'frontend',
+        in_array('agenda', $siteAccessIdentifierList) ? 'agenda' : 'frontend',
         'backend',
     ];
 
