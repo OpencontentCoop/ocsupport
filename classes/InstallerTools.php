@@ -50,14 +50,20 @@ class InstallerTools
                     unset($installers[$index]);
                     continue;
                 }
-                if ($isFork && $installer['identifier'] === '__main__' && $installer['name'] === 'OpenAsl'){
+                // On a fork only the main installer is blocked: modules stay installable/updatable
+                $blockedByFork = $isFork && $installer['identifier'] === '__main__';
+                if ($blockedByFork && $installer['name'] === 'OpenAsl'){
                     eZDebug::writeWarning('OpenAsl IsOpenCityFork workaround applied', __METHOD__);
-                    $isFork = false;
+                    $blockedByFork = false;
                 }
                 $installer['description'] = $installer['description'] ?? null;
-                $installer['is_fork'] = $isFork;
-                $installer['can_install'] = $isAdmin  && !$isFork && $installer['current'] === 'not-installed';
-                $installer['can_update'] = $isAdmin  && !$isFork && $installer['current'] !== 'not-installed'
+                // `requires`/`conflicts` declared in the installer manifest (older ocinstaller versions do not provide them)
+                $violations = $installer['constraint_violations'] ?? [];
+                $unmet = count($violations) > 0;
+                $installer['constraint_violations'] = $violations;
+                $installer['is_fork'] = $blockedByFork;
+                $installer['can_install'] = $isAdmin  && !$blockedByFork && !$unmet && $installer['current'] === 'not-installed';
+                $installer['can_update'] = $isAdmin  && !$blockedByFork && !$unmet && $installer['current'] !== 'not-installed'
                     && version_compare($installer['current'], $installer['available'], '<');
             }
         }

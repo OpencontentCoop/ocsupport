@@ -24,6 +24,16 @@
                 {if $installer.description}
                     <p class="m-0"><em>{$installer.description|wash()}</em></p>
                 {/if}
+                {if $installer.is_fork}
+                    <p class="m-0 text-danger"><small>Not available on OpenCity forks (IsOpenCityFork)</small></p>
+                {/if}
+                {if $installer.constraint_violations|count()|gt(0)}
+                    <ul class="m-0 text-danger">
+                    {foreach $installer.constraint_violations as $violation}
+                        <li><small>{if $violation.kind|eq('conflicts')}Conflict{else}Requirement{/if}: {$violation.message|wash()}</small></li>
+                    {/foreach}
+                    </ul>
+                {/if}
             </td>
             <td style="vertical-align:middle">{$installer.current|wash()}</td>
             <td style="vertical-align:middle">{$installer.available|wash()}</td>
